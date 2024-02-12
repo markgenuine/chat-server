@@ -1,4 +1,4 @@
-module github.com/markgenuine/auth
+module github.com/markgenuine/chat-server
 
 go 1.22.0
 
