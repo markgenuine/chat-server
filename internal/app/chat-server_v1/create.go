@@ -8,8 +8,7 @@ import (
 )
 
 // Create new chat
-func (s *ChatServer) Create(ctx context.Context, request *desc.CreateRequest) (*desc.CreateResponse, error) {
-	_ = ctx
+func (s *ChatServer) Create(_ context.Context, request *desc.CreateRequest) (*desc.CreateResponse, error) {
 	fmt.Printf("Create chat with users: %s", request.GetUsernames())
 
 	return &desc.CreateResponse{

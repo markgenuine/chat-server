@@ -9,8 +9,7 @@ import (
 )
 
 // Delete chat
-func (s *ChatServer) Delete(ctx context.Context, request *desc.DeleteRequest) (*empty.Empty, error) {
-	_ = ctx
+func (s *ChatServer) Delete(_ context.Context, request *desc.DeleteRequest) (*empty.Empty, error) {
 	fmt.Printf("Delete chat with ID: %d", request.GetId())
 
 	return &empty.Empty{}, nil
