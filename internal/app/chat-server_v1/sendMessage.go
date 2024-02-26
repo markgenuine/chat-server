@@ -15,8 +15,8 @@ func (s *ChatServer) SendMessage(ctx context.Context, req *desc.SendMessageReque
 	fmt.Printf("Message text: %s", req.GetText())
 	fmt.Printf("Message date: %s", req.GetTimestamp())
 
-	query, args, err := s.sq.Insert(ChatsMessages).
-		Columns(ChatsMessagesChatID, ChatsMessagesUserID, ChatsMessagesBody, ChatsMessagesTime).
+	query, args, err := s.sq.Insert(chatsMessages).
+		Columns(chatsMessagesChatID, chatsMessagesUserID, chatsMessagesBody, chatsMessagesTime).
 		Values(req.GetChatId(), req.GetFrom(), req.GetText(), req.GetTimestamp()).
 		ToSql()
 	if err != nil {

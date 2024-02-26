@@ -28,8 +28,8 @@ func (s *ChatServer) Delete(ctx context.Context, req *desc.DeleteRequest) (*empt
 		return nil, err
 	}
 
-	query, args, err = s.sq.Delete(ChatsUsers).
-		Where(sq.Eq{ChatsUsersChatID: req.GetId()}).
+	query, args, err = s.sq.Delete(chatsUsers).
+		Where(sq.Eq{chatsUsersChatID: req.GetId()}).
 		ToSql()
 	if err != nil {
 		log.Printf("failed to build query for delete pair chatId and userId of chatId: %s", err.Error())
@@ -42,8 +42,8 @@ func (s *ChatServer) Delete(ctx context.Context, req *desc.DeleteRequest) (*empt
 		return nil, err
 	}
 
-	query, args, err = s.sq.Delete(Chats).
-		Where(sq.Eq{ChatsID: req.GetId()}).
+	query, args, err = s.sq.Delete(chats).
+		Where(sq.Eq{chatsID: req.GetId()}).
 		ToSql()
 	if err != nil {
 		log.Printf("failed to build query for delete chatId of chatId: %s", err.Error())

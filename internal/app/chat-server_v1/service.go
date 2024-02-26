@@ -7,38 +7,16 @@ import (
 )
 
 const (
-	// Chats ...
-	Chats = "chats"
-
-	// ChatsID ...
-	ChatsID = "id"
-
-	// ChatsUsers ...
-	ChatsUsers = "chats_users"
-
-	// ChatsUsersChatID ..
-	ChatsUsersChatID = "chat_id"
-
-	// ChatsUsersUserID ...
-	ChatsUsersUserID = "user_id"
-
-	// ChatsMessages ...
-	ChatsMessages = "chats_messages"
-
-	// ChatsMessagesID ...
-	ChatsMessagesID = "id"
-
-	// ChatsMessagesChatID ...
-	ChatsMessagesChatID = "chat_id"
-
-	// ChatsMessagesUserID ...
-	ChatsMessagesUserID = "user_id"
-
-	// ChatsMessagesBody ...
-	ChatsMessagesBody = "body"
-
-	// ChatsMessagesTime ...
-	ChatsMessagesTime = "time"
+	chats               = "chats"
+	chatsID             = "id"
+	chatsUsers          = "chats_users"
+	chatsUsersChatID    = "chat_id"
+	chatsUsersUserID    = "user_id"
+	chatsMessages       = "chats_messages"
+	chatsMessagesChatID = "chat_id"
+	chatsMessagesUserID = "user_id"
+	chatsMessagesBody   = "body"
+	chatsMessagesTime   = "time"
 )
 
 // ChatServer - type for proto implementation

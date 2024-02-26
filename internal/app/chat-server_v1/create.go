@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/brianvoe/gofakeit/v6"
+	"github.com/google/uuid"
 	desc "github.com/markgenuine/chat-server/pkg/chat_server_v1"
 )
 
@@ -14,10 +14,10 @@ import (
 func (s *ChatServer) Create(ctx context.Context, req *desc.CreateRequest) (*desc.CreateResponse, error) {
 	fmt.Printf("Create chat with users: %s", req.GetUsernames())
 
-	query, args, err := s.sq.Insert(Chats).
-		Columns(ChatsID).
+	query, args, err := s.sq.Insert(chats).
+		Columns(chatsID).
 		Values(squirrel.Expr("DEFAULT")).
-		Suffix(fmt.Sprintf("RETURNING %s", ChatsID)).
+		Suffix(fmt.Sprintf("RETURNING %s", chatsID)).
 		ToSql()
 
 	if err != nil {
@@ -32,13 +32,12 @@ func (s *ChatServer) Create(ctx context.Context, req *desc.CreateRequest) (*desc
 		return nil, err
 	}
 
-	builderChatUser := s.sq.Insert(ChatsUsers).Columns(ChatsUsersChatID, ChatsUsersUserID)
+	builderChatUser := s.sq.Insert(chatsUsers).Columns(chatsUsersChatID, chatsUsersUserID)
 
 	// TODO add get id users
 	for range req.GetUsernames() {
-		id := int64(gofakeit.Uint8())
-		fmt.Println(id)
-		builderChatUser = builderChatUser.Values(chatID, id)
+		newUUID, _ := uuid.NewUUID()
+		builderChatUser = builderChatUser.Values(chatID, int64(newUUID.ID()))
 	}
 
 	query, args, err = builderChatUser.ToSql()
