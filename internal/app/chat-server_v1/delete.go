@@ -14,8 +14,8 @@ import (
 func (s *ChatServer) Delete(ctx context.Context, req *desc.DeleteRequest) (*empty.Empty, error) {
 	fmt.Printf("Delete chat with ID: %d", req.GetId())
 
-	query, args, err := s.sq.Delete(ChatsMessages).
-		Where(sq.Eq{ChatsMessagesChatID: req.GetId()}).
+	query, args, err := s.sq.Delete(chatsMessages).
+		Where(sq.Eq{chatsMessagesChatID: req.GetId()}).
 		ToSql()
 	if err != nil {
 		log.Printf("failed to build query for delete messages of chatId: %s", err.Error())
