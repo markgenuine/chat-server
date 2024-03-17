@@ -7,14 +7,12 @@ import (
 
 	"github.com/Masterminds/squirrel"
 	"github.com/google/uuid"
-	desc "github.com/markgenuine/chat-server/pkg/chat_server_v1"
+	"github.com/markgenuine/chat-server/internal/client/db"
+	"github.com/markgenuine/chat-server/internal/model"
 )
 
-// Create new chat
-func (s *ChatServer) Create(ctx context.Context, req *desc.CreateRequest) (*desc.CreateResponse, error) {
-	fmt.Printf("Create chat with users: %s", req.GetUsernames())
-
-	query, args, err := s.sq.Insert(chats).
+func (r *repo) Create(ctx context.Context, chat *model.Chat) (int64, error) {
+	query, args, err := r.sq.Insert(chats).
 		Columns(chatsID).
 		Values(squirrel.Expr("DEFAULT")).
 		Suffix(fmt.Sprintf("RETURNING %s", chatsID)).
@@ -22,20 +20,22 @@ func (s *ChatServer) Create(ctx context.Context, req *desc.CreateRequest) (*desc
 
 	if err != nil {
 		log.Printf("failed to build query create chat: %s", err.Error())
-		return nil, err
+		return 0, err
 	}
 
+	q := db.Query{
+		Name:     "chat_repository.Create_chats",
+		QueryRaw: query,
+	}
 	var chatID int64
-	err = s.poolDB.QueryRow(ctx, query, args...).Scan(&chatID)
+	err = r.db.DB().QueryRowContext(ctx, q, args...).Scan(&chatID)
 	if err != nil {
 		log.Printf("failed to insert chat: %s", err.Error())
-		return nil, err
+		return 0, err
 	}
 
-	builderChatUser := s.sq.Insert(chatsUsers).Columns(chatsUsersChatID, chatsUsersUserID)
-
-	// TODO add get id users
-	for range req.GetUsernames() {
+	builderChatUser := r.sq.Insert(chatsUsers).Columns(chatsUsersChatID, chatsUsersUserID)
+	for range chat.Usernames {
 		newUUID, _ := uuid.NewUUID()
 		builderChatUser = builderChatUser.Values(chatID, int64(newUUID.ID()))
 	}
@@ -43,16 +43,19 @@ func (s *ChatServer) Create(ctx context.Context, req *desc.CreateRequest) (*desc
 	query, args, err = builderChatUser.ToSql()
 	if err != nil {
 		log.Printf("failed to build query create pair chatID and userID: %s", err.Error())
-		return nil, err
+		return 0, err
 	}
 
-	_, err = s.poolDB.Exec(ctx, query, args...)
+	q = db.Query{
+		Name:     "chat_repository.Create_chatUsers",
+		QueryRaw: query,
+	}
+
+	_, err = r.db.DB().ExecContext(ctx, q, args...)
 	if err != nil {
 		log.Printf("failed to create pair chatId and userId: %s", err.Error())
-		return nil, err
+		return 0, err
 	}
 
-	return &desc.CreateResponse{
-		Id: chatID,
-	}, nil
+	return chatID, nil
 }
