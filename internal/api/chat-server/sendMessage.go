@@ -1,8 +1,7 @@
-package chat_server
+package chatserver
 
 import (
 	"context"
-	"log"
 
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/markgenuine/chat-server/internal/converter"
@@ -15,8 +14,6 @@ func (s *Implementation) SendMessage(ctx context.Context, request *desc.SendMess
 	if err != nil {
 		return &empty.Empty{}, err
 	}
-
-	log.Printf("inserted chat message")
 
 	return &empty.Empty{}, nil
 }

@@ -1,8 +1,7 @@
-package chat_server
+package chatserver
 
 import (
 	"context"
-	"log"
 
 	"github.com/markgenuine/chat-server/internal/converter"
 	desc "github.com/markgenuine/chat-server/pkg/chat_server_v1"
@@ -14,8 +13,6 @@ func (s *Implementation) Create(ctx context.Context, request *desc.CreateRequest
 	if err != nil {
 		return nil, err
 	}
-
-	log.Printf("inserted chat with id: %d", id)
 
 	return converter.CreateToChatFromService(id), nil
 }

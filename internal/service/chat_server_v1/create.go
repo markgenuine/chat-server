@@ -1,4 +1,4 @@
-package chat_server_v1
+package chatservice
 
 import (
 	"context"
@@ -9,18 +9,7 @@ import (
 )
 
 func (s *service) Create(ctx context.Context, chat *model.Chat) (int64, error) {
-	var id int64
-
-	err := s.txManager.ReadCommitted(ctx, func(ctx context.Context) error {
-		var errTx error
-		id, errTx = s.chatRepository.Create(ctx, chat)
-		if errTx != nil {
-			return errTx
-		}
-
-		return nil
-	})
-
+	id, err := s.chatRepository.Create(ctx, chat)
 	if err != nil {
 		log.Print(err)
 		return 0, errors.New("failed to create chat")

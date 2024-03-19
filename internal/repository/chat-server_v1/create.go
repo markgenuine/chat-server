@@ -1,4 +1,4 @@
-package chat_server_v1
+package chatrepo
 
 import (
 	"context"

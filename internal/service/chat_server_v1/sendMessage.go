@@ -1,4 +1,4 @@
-package chat_server_v1
+package chatservice
 
 import (
 	"context"
@@ -9,19 +9,11 @@ import (
 )
 
 func (s *service) SendMessage(ctx context.Context, message *model.Message) error {
-
-	err := s.txManager.ReadCommitted(ctx, func(ctx context.Context) error {
-		errTx := s.chatRepository.SendMessage(ctx, message)
-		if errTx != nil {
-			return errTx
-		}
-
-		return nil
-	})
-
+	err := s.chatRepository.SendMessage(ctx, message)
 	if err != nil {
 		log.Print(err)
 		return errors.New("failed to send message")
 	}
+
 	return nil
 }

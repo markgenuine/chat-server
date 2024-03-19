@@ -1,4 +1,4 @@
-package chat_server
+package chatserver
 
 import (
 	"github.com/markgenuine/chat-server/internal/service"

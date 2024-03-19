@@ -1,4 +1,4 @@
-package chat_server_v1
+package chatrepo
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/markgenuine/chat-server/internal/client/db"
 )
 
-func (r *repo) Delete(ctx context.Context, id int64) error {
+func (r *repo) DeleteChatMessages(ctx context.Context, id int64) error {
 	query, args, err := r.sq.Delete(chatsMessages).
 		Where(sq.Eq{chatsMessagesChatID: id}).
 		ToSql()
@@ -27,7 +27,11 @@ func (r *repo) Delete(ctx context.Context, id int64) error {
 		return err
 	}
 
-	query, args, err = r.sq.Delete(chatsUsers).
+	return err
+}
+
+func (r *repo) DeleteChatsUsers(ctx context.Context, id int64) error {
+	query, args, err := r.sq.Delete(chatsUsers).
 		Where(sq.Eq{chatsUsersChatID: id}).
 		ToSql()
 	if err != nil {
@@ -35,7 +39,7 @@ func (r *repo) Delete(ctx context.Context, id int64) error {
 		return err
 	}
 
-	q = db.Query{
+	q := db.Query{
 		Name:     "chat_repository.Delete_chatsUsers",
 		QueryRaw: query,
 	}
@@ -46,7 +50,11 @@ func (r *repo) Delete(ctx context.Context, id int64) error {
 		return err
 	}
 
-	query, args, err = r.sq.Delete(chats).
+	return nil
+}
+
+func (r *repo) DeleteChatUsers(ctx context.Context, id int64) error {
+	query, args, err := r.sq.Delete(chats).
 		Where(sq.Eq{chatsID: id}).
 		ToSql()
 	if err != nil {
@@ -54,7 +62,7 @@ func (r *repo) Delete(ctx context.Context, id int64) error {
 		return err
 	}
 
-	q = db.Query{
+	q := db.Query{
 		Name:     "chat_repository.Delete_chats",
 		QueryRaw: query,
 	}

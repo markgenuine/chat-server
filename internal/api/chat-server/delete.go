@@ -1,8 +1,7 @@
-package chat_server
+package chatserver
 
 import (
 	"context"
-	"log"
 
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/markgenuine/chat-server/internal/converter"
@@ -16,8 +15,6 @@ func (s *Implementation) Delete(ctx context.Context, request *desc.DeleteRequest
 	if err != nil {
 		return &empty.Empty{}, err
 	}
-
-	log.Printf("deleted chat with id: %d", request.GetId())
 
 	return &empty.Empty{}, err
 
