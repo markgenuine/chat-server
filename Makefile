@@ -75,7 +75,7 @@ test:
 .PHONY: test-coverage
 test-coverage:
 	go clean -testcache
-	-go test ./... -v -coverprofile=coverage.tmp.out -covermode count -coverpkg=github.com/markgenuine/auth/internal/service/...,github.com/markgenuine/auth/internal/api/... -count 5
+	-go test ./... -v -coverprofile=coverage.tmp.out -covermode count -coverpkg=github.com/markgenuine/chat-server/internal/service/...,github.com/markgenuine/chat-server/internal/api/... -count 5
 	grep -v "mocks/" coverage.tmp.out  > coverage.out
 	rm coverage.tmp.out
 	go tool cover -html=coverage.out -o coverage.html

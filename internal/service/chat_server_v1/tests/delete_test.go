@@ -9,7 +9,8 @@ import (
 	"github.com/gojuno/minimock/v3"
 	"github.com/jackc/pgx/v4"
 	"github.com/markgenuine/chat-server/internal/client/db"
-	dbMocks "github.com/markgenuine/chat-server/internal/client/db/mocks"
+	"github.com/markgenuine/chat-server/internal/client/db/mocks"
+	"github.com/markgenuine/chat-server/internal/client/db/pg"
 	"github.com/markgenuine/chat-server/internal/client/db/transaction"
 	"github.com/markgenuine/chat-server/internal/repository"
 	repoMock "github.com/markgenuine/chat-server/internal/repository/mocks"
@@ -32,10 +33,12 @@ func TestDelete(t *testing.T) {
 		ctx        = context.Background()
 		mc         = minimock.NewController(t)
 		serviceErr = fmt.Errorf("failed to delete chat")
-
-		userID = int64(gofakeit.Uint64())
-		opts   = pgx.TxOptions{IsoLevel: pgx.ReadCommitted}
+		userID     = int64(gofakeit.Uint64())
+		txOpts     = pgx.TxOptions{IsoLevel: pgx.ReadCommitted}
 	)
+
+	txMock := mocks.NewTxMock(mc)
+	ctxWithTx := pg.MakeContextTx(ctx, txMock)
 
 	defer t.Cleanup(mc.Finish)
 
@@ -55,14 +58,16 @@ func TestDelete(t *testing.T) {
 			err: nil,
 			chatServerRepoMock: func(mc *minimock.Controller) repository.ChatServerRepository {
 				mock := repoMock.NewChatServerRepositoryMock(mc)
-				mock.DeleteChatMessagesMock.Expect(minimock.AnyContext, userID).Return(nil)
+				mock.DeleteChatMessagesMock.Expect(ctxWithTx, userID).Return(nil)
+				mock.DeleteChatsUsersMock.Expect(ctxWithTx, userID).Return(nil)
+				mock.DeleteChatUsersMock.Expect(ctxWithTx, userID).Return(nil)
 				return mock
 			},
 			transactorMock: func(mc *minimock.Controller) db.Transactor {
-				mock := dbMocks.NewTransactorMock(mc)
-				txMock := dbMocks.NewTxMock(mc)
-				mock.BeginTxMock.Expect(minimock.AnyContext, opts).Return(txMock, nil)
-				txMock.CommitMock.Expect(minimock.AnyContext).Return(nil)
+				mock := mocks.NewTransactorMock(mc)
+				mock.BeginTxMock.Expect(ctx, txOpts).Return(txMock, nil)
+				txMock.CommitMock.Expect(ctxWithTx).Return(nil)
+
 				return mock
 			},
 		},
@@ -75,14 +80,14 @@ func TestDelete(t *testing.T) {
 			err: serviceErr,
 			chatServerRepoMock: func(mc *minimock.Controller) repository.ChatServerRepository {
 				mock := repoMock.NewChatServerRepositoryMock(mc)
-				mock.DeleteChatMessagesMock.Expect(minimock.AnyContext, userID).Return(serviceErr)
+				mock.DeleteChatMessagesMock.Expect(ctxWithTx, userID).Return(serviceErr)
 				return mock
 			},
 			transactorMock: func(mc *minimock.Controller) db.Transactor {
-				mock := dbMocks.NewTransactorMock(mc)
-				txMock := dbMocks.NewTxMock(mc)
-				mock.BeginTxMock.Expect(minimock.AnyContext, opts).Return(txMock, nil)
-				txMock.RollbackMock.Expect(minimock.AnyContext).Return(nil)
+				mock := mocks.NewTransactorMock(mc)
+				mock.BeginTxMock.Expect(ctx, txOpts).Return(txMock, nil)
+				txMock.RollbackMock.Expect(ctxWithTx).Return(nil)
+
 				return mock
 			},
 		},
@@ -96,9 +101,8 @@ func TestDelete(t *testing.T) {
 			txManagerMock := transaction.NewTransactionManager(tt.transactorMock(mc))
 			service := chatServerService.NewService(chatServerRepoMock, txManagerMock)
 
-			err := service.Delete(tt.args.ctx, tt.args.request)
+			err := service.Delete(ctx, tt.args.request)
 			require.Equal(t, tt.err, err)
 		})
 	}
-
 }
