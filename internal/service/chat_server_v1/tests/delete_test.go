@@ -8,13 +8,13 @@ import (
 	"github.com/brianvoe/gofakeit"
 	"github.com/gojuno/minimock/v3"
 	"github.com/jackc/pgx/v4"
-	"github.com/markgenuine/chat-server/internal/client/db"
-	"github.com/markgenuine/chat-server/internal/client/db/mocks"
-	"github.com/markgenuine/chat-server/internal/client/db/pg"
-	"github.com/markgenuine/chat-server/internal/client/db/transaction"
 	"github.com/markgenuine/chat-server/internal/repository"
 	repoMock "github.com/markgenuine/chat-server/internal/repository/mocks"
 	chatServerService "github.com/markgenuine/chat-server/internal/service/chat_server_v1"
+	"github.com/markgenuine/platform_common/pkg/db"
+	"github.com/markgenuine/platform_common/pkg/db/mocks"
+	"github.com/markgenuine/platform_common/pkg/db/pg"
+	"github.com/markgenuine/platform_common/pkg/db/transaction"
 	"github.com/stretchr/testify/require"
 )
 

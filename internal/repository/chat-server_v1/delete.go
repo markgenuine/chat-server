@@ -5,7 +5,7 @@ import (
 	"log"
 
 	sq "github.com/Masterminds/squirrel"
-	"github.com/markgenuine/chat-server/internal/client/db"
+	"github.com/markgenuine/platform_common/pkg/db"
 )
 
 func (r *repo) DeleteChatMessages(ctx context.Context, id int64) error {

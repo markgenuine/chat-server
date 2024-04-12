@@ -2,7 +2,6 @@ package chatserver
 
 import (
 	"github.com/markgenuine/chat-server/internal/service"
-
 	desc "github.com/markgenuine/chat-server/pkg/chat_server_v1"
 )
 
