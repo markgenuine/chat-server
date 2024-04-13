@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/markgenuine/chat-server/internal/client/db"
 	"github.com/markgenuine/chat-server/internal/model"
+	"github.com/markgenuine/platform_common/pkg/db"
 )
 
 func (r *repo) SendMessage(ctx context.Context, message *model.Message) error {

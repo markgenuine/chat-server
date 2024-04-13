@@ -2,8 +2,8 @@ package chatrepo
 
 import (
 	"github.com/Masterminds/squirrel"
-	"github.com/markgenuine/chat-server/internal/client/db"
 	"github.com/markgenuine/chat-server/internal/repository"
+	"github.com/markgenuine/platform_common/pkg/db"
 )
 
 const (

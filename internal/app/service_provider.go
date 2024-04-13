@@ -5,16 +5,16 @@ import (
 	"log"
 
 	api "github.com/markgenuine/chat-server/internal/api/chat-server"
-	"github.com/markgenuine/chat-server/internal/client/db"
-	"github.com/markgenuine/chat-server/internal/client/db/pg"
-	"github.com/markgenuine/chat-server/internal/client/db/transaction"
-	"github.com/markgenuine/chat-server/internal/closer"
 	"github.com/markgenuine/chat-server/internal/config"
 	"github.com/markgenuine/chat-server/internal/config/env"
 	"github.com/markgenuine/chat-server/internal/repository"
 	chatServerRepo "github.com/markgenuine/chat-server/internal/repository/chat-server_v1"
 	"github.com/markgenuine/chat-server/internal/service"
 	chatServerService "github.com/markgenuine/chat-server/internal/service/chat_server_v1"
+	"github.com/markgenuine/platform_common/pkg/closer"
+	"github.com/markgenuine/platform_common/pkg/db"
+	"github.com/markgenuine/platform_common/pkg/db/pg"
+	"github.com/markgenuine/platform_common/pkg/db/transaction"
 )
 
 type serviceProvider struct {

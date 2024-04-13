@@ -7,8 +7,8 @@ import (
 
 	"github.com/Masterminds/squirrel"
 	"github.com/google/uuid"
-	"github.com/markgenuine/chat-server/internal/client/db"
 	"github.com/markgenuine/chat-server/internal/model"
+	"github.com/markgenuine/platform_common/pkg/db"
 )
 
 func (r *repo) Create(ctx context.Context, chat *model.Chat) (int64, error) {
