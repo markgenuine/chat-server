@@ -7,7 +7,7 @@ import (
 
 	"github.com/brianvoe/gofakeit"
 	"github.com/gojuno/minimock/v3"
-	"github.com/markgenuine/chat-server/internal/api/chat-server"
+	chatserver "github.com/markgenuine/chat-server/internal/api/chat-server"
 	"github.com/markgenuine/chat-server/internal/converter"
 	"github.com/markgenuine/chat-server/internal/service"
 	serviceMock "github.com/markgenuine/chat-server/internal/service/mocks"
@@ -39,8 +39,6 @@ func TestCreate(t *testing.T) {
 		request  = converter.CreateToServiceFromChat(inputData)
 		response = &desc.CreateResponse{Id: userID}
 	)
-
-	defer t.Cleanup(mc.Finish)
 
 	tests := []struct {
 		name                  string

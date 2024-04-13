@@ -40,8 +40,6 @@ func TestDelete(t *testing.T) {
 	txMock := mocks.NewTxMock(mc)
 	ctxWithTx := pg.MakeContextTx(ctx, txMock)
 
-	defer t.Cleanup(mc.Finish)
-
 	tests := []struct {
 		name               string
 		args               args

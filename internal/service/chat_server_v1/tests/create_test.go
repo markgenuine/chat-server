@@ -35,8 +35,6 @@ func TestCreate(t *testing.T) {
 		response  = userID
 	)
 
-	defer t.Cleanup(mc.Finish)
-
 	tests := []struct {
 		name               string
 		args               args

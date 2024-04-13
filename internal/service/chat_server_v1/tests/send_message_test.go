@@ -41,8 +41,6 @@ func TestSendMessage(t *testing.T) {
 		}
 	)
 
-	defer t.Cleanup(mc.Finish)
-
 	tests := []struct {
 		name               string
 		args               args
