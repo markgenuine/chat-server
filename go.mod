@@ -5,6 +5,7 @@ go 1.22.2
 require (
 	github.com/Masterminds/squirrel v1.5.4
 	github.com/brianvoe/gofakeit v3.18.0+incompatible
+	github.com/envoyproxy/protoc-gen-validate v1.0.2
 	github.com/gojuno/minimock/v3 v3.3.6
 	github.com/golang/protobuf v1.5.3
 	github.com/google/uuid v1.6.0
@@ -13,6 +14,8 @@ require (
 	github.com/jackc/pgx/v4 v4.18.3
 	github.com/joho/godotenv v1.5.1
 	github.com/markgenuine/platform_common v0.0.0-20240412202338-f8823b6d8606
+	github.com/rakyll/statik v0.1.7
+	github.com/rs/cors v1.11.0
 	github.com/stretchr/testify v1.8.1
 	google.golang.org/genproto/googleapis/api v0.0.0-20240125205218-1f4bbc51befe
 	google.golang.org/grpc v1.61.0
