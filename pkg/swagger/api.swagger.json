@@ -55,9 +55,7 @@
         "tags": [
           "ChatServerV1"
         ]
-      }
-    },
-    "/chat_server/v1/create": {
+      },
       "post": {
         "operationId": "ChatServerV1_Create",
         "responses": {
