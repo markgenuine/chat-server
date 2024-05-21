@@ -4,3 +4,4 @@
 *.env
 /coverage.out
 /coverage.html
+vendor.protogen/
